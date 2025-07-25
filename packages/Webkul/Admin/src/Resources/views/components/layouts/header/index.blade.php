@@ -21,8 +21,10 @@
                 />
             @else
                 <img
-                    src="{{ request()->cookie('dark_mode') ? bagisto_asset('images/dark-logo.svg') : bagisto_asset('images/logo.svg') }}"
+                src="{{ request()->cookie('dark_mode') ? asset('storage/configuration/logo.png') : asset('storage/configuration/logo.png') }}"
+                   
                     id="logo-image"
+                    width="40"
                     alt="{{ config('app.name') }}"
                 />
             @endif
@@ -95,12 +97,11 @@
             <!-- Admin Dropdown -->
             <x-slot:content class="!p-0">
                 <div class="flex items-center gap-1.5 border border-b-gray-300 px-5 py-2.5 dark:border-gray-800">
-                    <img
-                        src="{{ url('cache/logo/bagisto.png') }}"
-                        width="24"
-                        height="24"
-                    />
-
+                <img
+src="{{ request()->cookie('dark_mode') ? asset('storage/configuration/logo.png') : asset('storage/configuration/logo.png') }}"                    id="logo-image"
+                    width="24"
+                    alt="{{ config('app.name') }}"
+                />
                     <!-- Version -->
                     <p class="text-gray-400">
                         @lang('admin::app.components.layouts.header.app-version', ['version' => 'v' . core()->version()])
@@ -153,7 +154,7 @@
                 />
             @else
                 <img
-                    src="{{ request()->cookie('dark_mode') ? bagisto_asset('images/dark-logo.svg') : bagisto_asset('images/logo.svg') }}"
+                    src="{{ request()->cookie('dark_mode') ? asset('storage/configuration/logo.png') : asset('storage/configuration/logo.png') }}"
                     id="logo-image"
                     alt="{{ config('app.name') }}"
                 />
@@ -738,9 +739,9 @@
                 return {
                     isDarkMode: {{ request()->cookie('dark_mode') ?? 0 }},
 
-                    logo: "{{ bagisto_asset('images/logo.svg') }}",
+                    logo: "{{ asset('storage/configuration/logo.png') }}",
 
-                    dark_logo: "{{ bagisto_asset('images/dark-logo.svg') }}",
+                    dark_logo: "{{ asset('storage/configuration/logo.png') }}",
                 };
             },
 

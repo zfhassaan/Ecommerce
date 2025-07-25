@@ -53,7 +53,7 @@
     <link
         rel="preload"
         as="image"
-        href="{{ url('cache/logo/bagisto.png') }}"
+        href="{{ url('cache/logo/logo.png') }}"
     >
 
     @if ($favicon = core()->getConfigData('general.design.admin_logo.favicon'))

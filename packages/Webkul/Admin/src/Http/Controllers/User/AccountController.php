@@ -32,7 +32,7 @@ class AccountController extends Controller
 
         $this->validate(request(), [
             'name'             => 'required',
-            'email'            => 'email|unique:admins,email,'.$user->id,
+            'email'            => 'email|unique:admins,email,' . $user->id,
             'password'         => 'nullable|min:6|confirmed',
             'current_password' => 'required|min:6',
             'image.*'          => 'nullable|mimes:bmp,jpeg,jpg,png,webp',
@@ -64,7 +64,22 @@ class AccountController extends Controller
         }
 
         if (request()->hasFile('image')) {
-            $data['image'] = current(request()->file('image'))->store('admins/'.$user->id);
+            $file = current(request()->file('image'));
+
+                if ($file && $file->isValid()) {
+                    $folderPath = 'admins/' . $user->id . '/' . date('Y-m-d');
+                    $fileName = time() . '.' . $file->extension();
+
+                    $storagePath = storage_path('app/public/' . $folderPath);
+
+                    if (!file_exists($storagePath)) {
+                        mkdir($storagePath, 0755, true);
+                    }
+
+                    $file->move($storagePath, $fileName);
+
+                    $data['image'] = $folderPath . '/' . $fileName; // Relative path, use Storage::url() if needed
+                }
         } else {
             if (! isset($data['image'])) {
                 if (! empty($data['image'])) {

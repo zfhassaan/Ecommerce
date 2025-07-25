@@ -11,6 +11,7 @@ use Webkul\Core\Eloquent\Repository;
 
 class CoreConfigRepository extends Repository
 {
+
     /**
      * Specify model class name.
      */
@@ -81,8 +82,30 @@ class CoreConfigRepository extends Repository
                 }
 
                 if (request()->hasFile($fieldName)) {
-                    $value = request()->file($fieldName)->store('configuration');
+                    $file = request()->file($fieldName);
+
+                    if ($file && $file->isValid()) {
+                        $folderPath = 'configuration/' . date('Y-m-d');
+                        $fileName = time() . '.' . $file->extension();
+
+                        $storagePath = storage_path('app/public/' . $folderPath);
+
+                        if (!file_exists($storagePath)) {
+                            mkdir($storagePath, 0755, true);
+                        }
+
+                        $file->move($storagePath, $fileName);
+
+                        // Public URL (assuming storage:link is done)
+                        $value = $folderPath . '/' . $fileName;
+
+                        // Optional metadata
+                        $uniqueId  = Str::uuid();
+                        $mediaType = $file->getClientOriginalExtension();
+                        $mediaName = $file->getClientOriginalName();
+                    }
                 }
+
 
                 if (! count($coreConfigValue)) {
                     parent::create([
@@ -202,7 +225,7 @@ class CoreConfigRepository extends Repository
         static $recursiveArrayData = [];
 
         foreach ($formData as $form => $formValue) {
-            $value = $method.'.'.$form;
+            $value = $method . '.' . $form;
 
             if (is_array($formValue)) {
                 $dim = $this->countDim($formValue);
@@ -222,7 +245,7 @@ class CoreConfigRepository extends Repository
                 $recursiveArrayData[$key] = $value;
             } else {
                 foreach ($value as $key1 => $val) {
-                    $recursiveArrayData[$key.'.'.$key1] = $val;
+                    $recursiveArrayData[$key . '.' . $key1] = $val;
                 }
             }
         }

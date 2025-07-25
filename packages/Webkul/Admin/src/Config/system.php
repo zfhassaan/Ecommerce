@@ -207,7 +207,7 @@ return [
         'sort'   => 1,
         'fields' => [
             [
-                'name'          => 'logo_image',
+                'name'          => 'logo_image',    
                 'title'         => 'admin::app.configuration.index.general.design.admin-logo.logo-image',
                 'type'          => 'image',
                 'channel_based' => false,

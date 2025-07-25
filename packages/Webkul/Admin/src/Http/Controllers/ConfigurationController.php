@@ -53,7 +53,7 @@ class ConfigurationController extends Controller
     public function store(ConfigurationForm $request): RedirectResponse
     {
         $data = $request->all();
-
+       
         if (isset($data['sales']['carriers'])) {
             $atLeastOneCarrierEnabled = false;
 

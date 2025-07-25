@@ -15,8 +15,9 @@
                 />
             @else
                 <img
-                    class="w-max" 
-                    src="{{ bagisto_asset('images/logo.svg') }}"
+                    src="{{asset('storage/configuration/logo.png') }}"
+                    id="logo-image"
+                    width="40"
                     alt="{{ config('app.name') }}"
                 />
             @endif
